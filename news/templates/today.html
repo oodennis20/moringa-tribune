@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+  <h1 style="color:darkred">Today's news centre<h1>
+  {{block.super}} 
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6">
+        {% for new in news %} 
+        <div class="card bg-light">
+        <div class="row">
+            <div class="col-md-6">
+              <img src="{{new.articles_image.url}}" class="img-responsive" width="250px" alt="Image">                
+            </div>
+            <div class="col-md-6">
+              <h5>Title:{{new.title}}</h5>
+              <p>{{new.post}}</p>
+              <p>{{new.editor}}</p>
+              <p>{{new.pub_date}}</p>
+            </div>
+          </div>
+          <hr>  
+        </div>  
+        {% endfor %}  
+      </div>  
+    </div>
+  </div>
+{% endblock content %}

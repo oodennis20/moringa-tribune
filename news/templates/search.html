@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block content %} 
+<div class="container">
+  <div class="row">
+    <div class="col-md-4">
+      {% if articles %}
+        <h3>Found {{ articles|length }} of searched term<hr> {{message}}</h3>
+      {% else %}
+        <h3>Found 0 articles for the search term<hr> {{message}}</h3>
+      {% endif %}    
+    </div> 
+    <div class="col-md-8">
+      <h2>Articles</h2>
+      {% if articles %}
+        {% for new in articles %}
+        <div class="card bg-light">
+          <div class="col-md-6">
+            <img src="{{new.articles_image.url}}" class="img-responsive" width="250px" alt="Image">                
+          </div>
+          <div class="col-md-6">
+            <h5>Title:{{new.title}}</h5>
+            <p>{{new.post}}</p>
+            <p>{{new.editor}}</p>
+            <p>{{new.pub_date}}</p>
+          </div>
+        </div>
+        <hr>  
+        {% endfor %}  
+      {% endif %}  
+    </div> 
+  </div>
+</div>
+
+{% endblock content %}

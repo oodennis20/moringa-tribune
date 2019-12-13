@@ -1,0 +1,43 @@
+  <nav class="navbar sticky-top navbar-expand-lg navbar-light bg-dark btn-outline-info">
+    <a class="navbar-brand"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQubJrcipo0XOtYNjfypNSKDv_GB2LD8JfrNbcAcOU4l3BL0X-x6Q&s" witch="60px" height="50px"alt=""></a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+      <ul class="navbar-nav">
+        <li class="nav-item active">
+          <a class="nav-link btn btn-outline-success" style="color:lightblue" href="{% url 'newsToday' %}">Home</a>
+        </li>     
+
+        <li class="nav-item">
+          <a class="nav-link"></a>
+        </li>                                                   
+        
+        <li class="nav-item">
+          <a class="nav-link"></a>
+        </li>                                                   
+
+        <li class="nav-item">
+          <a class="nav-link btn btn-outline-primary" style="color:lightblue" href="/archives/2019-02-03">Old News</a>
+        </li>
+
+      </ul>
+      <ul class="navbar-nav ml-auto">  
+        <li>
+          <form class="navbar-form" role='search' action="{% url 'search_results' %}">
+            <input type="text" class="form-control" placeholder="Search Article" name="article">
+            <button type="submit" class="btn btn-outline-success">Search</button>            
+          </form>  
+        </li>
+        <li class="nav-item">
+          <a class="btn btn-outline-danger" href="">Trending</a>
+        </li>        
+        <li class="nav-item">
+          <a class="nav-link"></a>
+        </li>     
+        <li class="nav-item">
+          <a class="btn btn-outline-danger" href="">Emergency</a>
+        </li>                        
+      </ul>
+    </div>
+  </nav>
