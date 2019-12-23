@@ -7,7 +7,9 @@
     </div>
     <div class="col-md-6">
       <h5>Title:{{article.title}}</h5>
-      <p>{{article.post}}</p>
+      {% autoescape on %}
+      <p>{{article.post|safe}}</p>
+      {% endautoescape %}
       <p>{{article.editor}}</p>
       <p>Posted {{article.pub_date|timesince}} ago by {{article.editor.first_name}}</p>
     </div>

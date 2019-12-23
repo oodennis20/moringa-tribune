@@ -1,0 +1,6 @@
+Hello {{name}},
+
+Welcome to Pyra's News center.
+Enjoy!!!!!!!!!!!!!
+
+CEO:Pyra

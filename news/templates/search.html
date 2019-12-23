@@ -20,7 +20,9 @@
           </div>
           <div class="col-md-6">
             <h5>Title:{{new.title}}</h5>
-            <p>{{new.post}}</p>
+            {% autoescape on %}
+              <p>{{news.post|safe}}</p>
+            {% endautoescape %}
             <p>{{new.editor}}</p>
             <p>{{new.pub_date}}</p>
           </div>
