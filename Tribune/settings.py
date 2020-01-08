@@ -32,7 +32,7 @@ EMAIL_HOST_USER=config('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD=config('EMAIL_HOST_PASSWORD')
 
 
-INSTALLED_APPS = [
+INSTALLED_APPS = [    
     'tinymce',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -42,6 +42,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'news.apps.NewsConfig',
     'bootstrap4',    
+    'rest_framework',
+    'rest_framework.authtoken',
 ]
 
 MIDDLEWARE = [
@@ -56,6 +58,12 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'Tribune.urls'
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.TokenAuthentication',
+    )
+}
 
 TEMPLATES = [
     {

@@ -17,6 +17,9 @@ urlpatterns = [
     url(r'^accounts/profile/$',views.profile,name='profile'),
     # url(r'^like/$',PostLikeRedirect.as_view(),name="like_post"),
     url(r"^like/$",views.like_post,name="like_post"),
+    url(r'ajax/newsletter/$',views.newsletter,name='newsletter'),
+    url(r"^api/merch/$", views.MerchList.as_view()),
+    url(r'api/merch/merch-id/(?P<pk>[0-9]+)/$',views.merchdescription.as_view()),
 ]
 
 if settings.DEBUG:

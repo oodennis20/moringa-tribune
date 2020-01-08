@@ -1,7 +1,7 @@
 from django.shortcuts import render,redirect
 from django.http import HttpResponse,Http404,HttpResponseRedirect
 import datetime as dt
-from .models import Article,NewsLetter
+from .models import Article,NewsLetter,MoringaMerch
 from .forms import NewsLetterForm,NewsArticleForm
 from .email import send_welcome_email
 from django.contrib.auth.decorators import login_required
@@ -9,6 +9,13 @@ from django.contrib import messages
 from django.contrib.auth import logout
 from django.views.generic import RedirectView
 from django.shortcuts import get_object_or_404
+from django.http import JsonResponse
+from .serializer import MerchSerializer
+from rest_framework.response import Response
+from rest_framework.views import APIView
+from rest_framework import status
+from .permissions import IsAdminReadOnly
+
 def convert_dates(dates):
   day_number=dt.date.weekday(dates)
 
@@ -19,25 +26,19 @@ def convert_dates(dates):
 
 def news_of_day(request):
   date=dt.date.today()
-  news=Article.today_news()
-
-  if request.method=='POST':
-    form=NewsLetterForm(request.POST)
-    if form.is_valid():
-      name=form.cleaned_data['name']
-      email=form.cleaned_data['email']
-      recipient=NewsLetter(name=name,email=email)
-      recipient.save()
-      send_welcome_email(name,email)
-      
-      HttpResponseRedirect('news_of_day')
-
-  else:
-    form=NewsLetterForm()    
-
+  news=Article.today_news()  
+  form=NewsLetterForm()                                    
   return render(request,'today.html',{"date":date,"news":news,"subform":form})  
 
-
+def newsletter(request):
+  name=request.POST.get('name')
+  email=request.POST.get('email')
+  recipient=NewsLetter(name=name,email=email)
+  recipient.save()
+  send_welcome_email(name,email)
+  data={'success': 'You have been succesfully added to the mail list'}
+  return JsonResponse(data)
+  
 def past_days_news(request,past_date):
 
   try:
@@ -118,6 +119,54 @@ def like_post(request):
   post=get_object_or_404(Article, id=request.POST.get('post_id'))  
   post.likes.add(request.user)      
   return redirect('newsToday')
+
+class MerchList(APIView):
+  permission_classes=(IsAdminReadOnly,)  
+  def get(self, request,format=None):
+    all_merch=MoringaMerch.objects.all()
+    serializers=MerchSerializer(all_merch,many=True)
+    return Response(serializers.data)
+
+  def post(self, request,format=None):
+    serializers=MerchSerializer(data=request.data)
+    if serializers.is_valid():          
+      serializers.save()
+      return Response(serializers.data,status=status.HTTP_201_CREATED)
+    
+    return Response(serializers.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class merchdescription(APIView):
+  permission_classes=(IsAdminReadOnly,)
+  def get_merch(self, pk):
+    try:
+      return MoringaMerch.objects.get(pk=pk)
+    except MoringaMerch.DoesNotExist:
+      return Http404
+
+  def get(self, request, pk, format=None):
+    merch = self.get_merch(pk)
+    serializers=MerchSerializer(merch)
+    return Response(serializers.data)
+
+  def put(self,request,pk,format=None):
+    merch=self.get_merch(pk)
+    serializers=MerchSerializer(merch,request.data)
+    if serializers.is_valid():
+      serializers.save()
+      return Response(serializers.data)
+    else:
+      return Response(serializers.errors,status=status.HTTP_400_BAD_REQUEST)  
+
+  def delete(self,request,pk,formart=None):
+    merch=self.get_merch(pk)
+    merch.delete()
+    return Response(status=status.HTTP_204_NO_CONTENT)
+    
+
+
+
+
+    
 
 
 

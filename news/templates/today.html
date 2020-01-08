@@ -1,11 +1,12 @@
 {% extends 'base.html' %}
 {% load bootstrap4 %}
+{% load static %}
 
 {% block content %}
   <h1 style="color:darkred">Today's news centre<h1>
   {{block.super}} 
   <div class="container">
-    <form action="{% url 'newsToday' %}" method="post">
+    <form action="{% url 'newsletter' %}" method="post">
       {% csrf_token %}
       {% bootstrap_form subform layout='inline' %}
       <input type="Submit" value="Subscribe">
@@ -36,3 +37,9 @@
     </div>
   </div>
 {% endblock content %}
+
+{% block scripts %}
+  {{block.super}}
+  <script type="text/javascript" src="{% static 'js/newsletter.js' %}"></script>
+{% endblock scripts %}
+
